@@ -2,11 +2,8 @@ package com.thoughtworks.gameoflife;
 
 import org.junit.jupiter.api.Test;
 
-
 import static com.thoughtworks.gameoflife.CellState.DEAD;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-
 
 import static com.thoughtworks.gameoflife.CellState.ALIVE;
 import static org.hamcrest.Matchers.is;
@@ -67,13 +64,32 @@ public class GridTest {
         Cell fourthCell = new Cell(fourthCoordinate,ALIVE);
         Coordinate fifthCoordinate = new Coordinate(1,0);
         Cell fifthCell = new Cell(fifthCoordinate,ALIVE);
-
         Grid grid = new Grid();
         grid.addCell(firstCell);
         grid.addCell(secondCell);
         grid.addCell(thirdCell);
         grid.addCell(fourthCell);
         grid.addCell(fifthCell);
+
+        grid.checkNeighbors(firstCell);
+        CellState actualState = firstCell.getState();
+
+        assertThat(actualState, is(expectedState));
+    }
+
+    @Test
+    void shouldReturnCellStateAsAliveWhenTheCellHasTwoOrThreeAliveNeighbors() {
+        CellState expectedState = ALIVE;
+        Coordinate firstCoordinate=new Coordinate(1,1);
+        Cell firstCell = new Cell(firstCoordinate,ALIVE);
+        Coordinate secondCoordinate = new Coordinate(1,2);
+        Cell secondCell = new Cell(secondCoordinate,ALIVE);
+        Coordinate thirdCoordinate = new Coordinate(0,1);
+        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
+        Grid grid = new Grid();
+        grid.addCell(firstCell);
+        grid.addCell(secondCell);
+        grid.addCell(thirdCell);
 
         grid.checkNeighbors(firstCell);
         CellState actualState = firstCell.getState();
