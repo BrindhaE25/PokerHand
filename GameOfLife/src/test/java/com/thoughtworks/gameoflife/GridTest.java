@@ -34,4 +34,24 @@ public class GridTest {
 
         assertThat(actualState, is(expectedState));
     }
+
+    @Test
+    void shouldReturnCellStateAsDeadWhenTheCellHasFewerThanTwoAliveNeighbors() {
+        CellState expectedState = DEAD;
+        Coordinate coordinate=new Coordinate(1,1);
+        Cell cell = new Cell(coordinate,ALIVE);
+        System.out.println(cell);
+        Coordinate anotherCoordinate = new Coordinate(1,2);
+        Cell anotherCell = new Cell(anotherCoordinate,ALIVE);
+        System.out.println(anotherCell);
+        Grid grid = new Grid();
+        grid.addCell(cell);
+        grid.addCell(anotherCell);
+
+        grid.checkNeighbors(cell);
+        CellState actualState = cell.getState();
+
+        assertThat(actualState, is(expectedState));
+    }
+
 }

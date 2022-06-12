@@ -8,4 +8,12 @@ public class Coordinate {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
+
+    public int getXCoordinate() {
+        return this.xPosition;
+    }
+
+    public int getYCoordinate() {
+        return this.yPosition;
+    }
 }
