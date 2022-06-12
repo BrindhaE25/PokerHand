@@ -97,4 +97,27 @@ public class GridTest {
         assertThat(actualState, is(expectedState));
     }
 
+    @Test
+    void shouldReturnCellStateAsAliveWhenTheCellIsDeadAndItHasThreeAliveNeighbors() {
+        CellState expectedState = ALIVE;
+        Coordinate firstCoordinate=new Coordinate(1,1);
+        Cell firstCell = new Cell(firstCoordinate,DEAD);
+        Coordinate secondCoordinate = new Coordinate(1,2);
+        Cell secondCell = new Cell(secondCoordinate,ALIVE);
+        Coordinate thirdCoordinate = new Coordinate(0,1);
+        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
+        Coordinate fourthCoordinate = new Coordinate(1,0);
+        Cell fourthCell = new Cell(fourthCoordinate,ALIVE);
+        Grid grid = new Grid();
+        grid.addCell(firstCell);
+        grid.addCell(secondCell);
+        grid.addCell(thirdCell);
+        grid.addCell(fourthCell);
+
+        grid.checkNeighbors(firstCell);
+        CellState actualState = firstCell.getState();
+
+        assertThat(actualState, is(expectedState));
+    }
+
 }

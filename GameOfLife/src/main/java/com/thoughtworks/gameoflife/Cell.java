@@ -18,14 +18,14 @@ public class Cell {
 
     public void changeCellState(int cellCount) {
         if(cellCount < MINIMUM_NEIGHBOR_CELL_COUNT) {
-            System.out.println("First if");
             this.state = CellState.DEAD;
 
         }
         else if(cellCount > MAXIMUM_NEIGHBOR_CELL_COUNT){
-            System.out.println("Second if");
             this.state = CellState.DEAD;
-
+        }
+        else {
+            this.state = CellState.ALIVE;
         }
 
     }
