@@ -13,8 +13,8 @@ public class Grid {
         int[] x = new int[]{-1, 0, +1};
         int[] y = new int[]{-1,0,+1};
         int neighborCellsCount=0;
-        int xPosition = cell.coordinate.getXCoordinate();
-        int yPosition = cell.coordinate.getYCoordinate();
+        int xPosition = cell.getCoordinate().getXCoordinate();
+        int yPosition = cell.getCoordinate().getYCoordinate();
             for(int xIter=0;xIter<x.length;xIter++) {
                 for(int yIter=0;yIter < y.length;yIter++) {
                     for(Cell neighborCell : cells) {
@@ -31,7 +31,7 @@ public class Grid {
     private int countNeighborCells(int xPosition, int yPosition, Cell neighborCell, int xIter, int yIter) {
         if(xPosition + xIter == xPosition && yPosition + yIter == yPosition)
             return 0;
-        if(xPosition + xIter == neighborCell.coordinate.getXCoordinate() && yPosition + yIter == neighborCell.coordinate.getYCoordinate()) {
+        if(xPosition + xIter == neighborCell.getCoordinate().getXCoordinate() && yPosition + yIter == neighborCell.getCoordinate().getYCoordinate()) {
             if(neighborCell.getState().equals(CellState.ALIVE)) {
                 return 1;
             }

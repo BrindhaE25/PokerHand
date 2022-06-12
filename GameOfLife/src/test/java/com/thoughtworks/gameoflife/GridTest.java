@@ -9,32 +9,28 @@ import static com.thoughtworks.gameoflife.CellState.ALIVE;
 import static org.hamcrest.Matchers.is;
 
 public class GridTest {
-
     @Test
     void shouldReturnCellStateAsAliveWhenTheCellIsAlive() {
         Coordinate coordinate=new Coordinate(1,1);
         Cell cell = new Cell(coordinate,ALIVE);
-        CellState expectedState = ALIVE;
 
         CellState actualState = cell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(ALIVE));
     }
 
     @Test
     void shouldReturnCellStateAsDeadWhenTheCellIsDead() {
         Coordinate coordinate=new Coordinate(1,1);
         Cell cell = new Cell(coordinate,DEAD);
-        CellState expectedState = DEAD;
 
         CellState actualState = cell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(DEAD));
     }
 
     @Test
     void shouldReturnCellStateAsDeadWhenTheCellHasFewerThanTwoAliveNeighbors() {
-        CellState expectedState = DEAD;
         Coordinate coordinate=new Coordinate(1,1);
         Cell cell = new Cell(coordinate,ALIVE);
         System.out.println(cell);
@@ -48,12 +44,11 @@ public class GridTest {
         grid.checkNeighbors(cell);
         CellState actualState = cell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(DEAD));
     }
 
     @Test
     void shouldReturnCellStateAsDeadWhenTheCellHasMoreThanThreeAliveNeighbors() {
-        CellState expectedState = DEAD;
         Coordinate firstCoordinate=new Coordinate(1,1);
         Cell firstCell = new Cell(firstCoordinate,ALIVE);
         Coordinate secondCoordinate = new Coordinate(1,2);
@@ -74,12 +69,11 @@ public class GridTest {
         grid.checkNeighbors(firstCell);
         CellState actualState = firstCell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(DEAD));
     }
 
     @Test
     void shouldReturnCellStateAsAliveWhenTheCellHasTwoOrThreeAliveNeighbors() {
-        CellState expectedState = ALIVE;
         Coordinate firstCoordinate=new Coordinate(1,1);
         Cell firstCell = new Cell(firstCoordinate,ALIVE);
         Coordinate secondCoordinate = new Coordinate(1,2);
@@ -94,12 +88,11 @@ public class GridTest {
         grid.checkNeighbors(firstCell);
         CellState actualState = firstCell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(ALIVE));
     }
 
     @Test
     void shouldReturnCellStateAsAliveWhenTheCellIsDeadAndItHasThreeAliveNeighbors() {
-        CellState expectedState = ALIVE;
         Coordinate firstCoordinate=new Coordinate(1,1);
         Cell firstCell = new Cell(firstCoordinate,DEAD);
         Coordinate secondCoordinate = new Coordinate(1,2);
@@ -117,7 +110,7 @@ public class GridTest {
         grid.checkNeighbors(firstCell);
         CellState actualState = firstCell.getState();
 
-        assertThat(actualState, is(expectedState));
+        assertThat(actualState, is(ALIVE));
     }
 
 }

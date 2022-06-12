@@ -1,8 +1,8 @@
 package com.thoughtworks.gameoflife;
 
 public class Coordinate {
-    final int xPosition;
-    final int yPosition;
+    final private int xPosition;
+    final private int yPosition;
 
     public Coordinate(int xPosition, int yPosition) {
         this.xPosition = xPosition;
