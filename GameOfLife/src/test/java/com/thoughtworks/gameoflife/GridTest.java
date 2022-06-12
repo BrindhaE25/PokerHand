@@ -54,4 +54,31 @@ public class GridTest {
         assertThat(actualState, is(expectedState));
     }
 
+    @Test
+    void shouldReturnCellStateAsDeadWhenTheCellHasMoreThanThreeAliveNeighbors() {
+        CellState expectedState = DEAD;
+        Coordinate firstCoordinate=new Coordinate(1,1);
+        Cell firstCell = new Cell(firstCoordinate,ALIVE);
+        Coordinate secondCoordinate = new Coordinate(1,2);
+        Cell secondCell = new Cell(secondCoordinate,ALIVE);
+        Coordinate thirdCoordinate = new Coordinate(0,1);
+        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
+        Coordinate fourthCoordinate = new Coordinate(1,0);
+        Cell fourthCell = new Cell(fourthCoordinate,ALIVE);
+        Coordinate fifthCoordinate = new Coordinate(1,0);
+        Cell fifthCell = new Cell(fifthCoordinate,ALIVE);
+
+        Grid grid = new Grid();
+        grid.addCell(firstCell);
+        grid.addCell(secondCell);
+        grid.addCell(thirdCell);
+        grid.addCell(fourthCell);
+        grid.addCell(fifthCell);
+
+        grid.checkNeighbors(firstCell);
+        CellState actualState = firstCell.getState();
+
+        assertThat(actualState, is(expectedState));
+    }
+
 }

@@ -6,8 +6,6 @@ public class Grid {
     HashSet <Cell> cells = new HashSet<Cell>();
 
     public void addCell(Cell cell) {
-        System.out.println(cell);
-        System.out.println(cell.getState());
         cells.add(cell);
     }
 
@@ -21,12 +19,13 @@ public class Grid {
                 for(int yIter=0;yIter < y.length;yIter++) {
                     for(Cell neighborCell : cells) {
                         //System.out.println("x:"+ (xPosition+x[xIter]) + "y:" + (yPosition+y[yIter]) );
-                        neighborCellsCount += countNeighborCells(xPosition, yPosition, neighborCell, xPosition+x[xIter], yPosition+y[yIter]);
-                        //System.out.println("count:" + neighborCellsCount);
+                        neighborCellsCount += countNeighborCells(xPosition, yPosition, neighborCell, x[xIter], y[yIter]);
+                       //System.out.println("count:" + neighborCellsCount);
                 }
             }
-            cell.changeCellState(neighborCellsCount);
         }
+        //System.out.println("count:" + neighborCellsCount);
+        cell.changeCellState(neighborCellsCount);
     }
 
     private int countNeighborCells(int xPosition, int yPosition, Cell neighborCell, int xIter, int yIter) {
