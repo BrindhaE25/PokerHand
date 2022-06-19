@@ -7,9 +7,17 @@ public class Cell {
     private Coordinate coordinate;
     private CellState state;
 
-    public Cell(Coordinate coordinate, CellState state) {
+    private Cell(Coordinate coordinate, CellState state) {
         this.coordinate = coordinate;
         this.state = state;
+    }
+
+    public static Cell createAliveCell(Coordinate coordinate) {
+        return new Cell(coordinate, CellState.ALIVE);
+    }
+
+    public static Cell createDeadCell(Coordinate coordinate) {
+        return new Cell(coordinate, CellState.DEAD);
     }
 
     public CellState getState() {
@@ -21,14 +29,11 @@ public class Cell {
     }
 
     public void changeCellState(int cellCount) {
-        if(cellCount < MINIMUM_NEIGHBOR_CELL_COUNT) {
+        if (cellCount < MINIMUM_NEIGHBOR_CELL_COUNT) {
             this.state = CellState.DEAD;
-
-        }
-        else if(cellCount > MAXIMUM_NEIGHBOR_CELL_COUNT){
+        } else if (cellCount > MAXIMUM_NEIGHBOR_CELL_COUNT) {
             this.state = CellState.DEAD;
-        }
-        else if(cellCount == MAXIMUM_NEIGHBOR_CELL_COUNT || cellCount == MINIMUM_NEIGHBOR_CELL_COUNT){
+        } else if (cellCount == MAXIMUM_NEIGHBOR_CELL_COUNT || cellCount == MINIMUM_NEIGHBOR_CELL_COUNT) {
             this.state = CellState.ALIVE;
         }
     }

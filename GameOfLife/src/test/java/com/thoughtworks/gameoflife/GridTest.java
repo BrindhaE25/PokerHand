@@ -9,34 +9,13 @@ import static com.thoughtworks.gameoflife.CellState.ALIVE;
 import static org.hamcrest.Matchers.is;
 
 public class GridTest {
-    @Test
-    void shouldReturnCellStateAsAliveWhenTheCellIsAlive() {
-        Coordinate coordinate=new Coordinate(1,1);
-        Cell cell = new Cell(coordinate,ALIVE);
-
-        CellState actualState = cell.getState();
-
-        assertThat(actualState, is(ALIVE));
-    }
-
-    @Test
-    void shouldReturnCellStateAsDeadWhenTheCellIsDead() {
-        Coordinate coordinate=new Coordinate(1,1);
-        Cell cell = new Cell(coordinate,DEAD);
-
-        CellState actualState = cell.getState();
-
-        assertThat(actualState, is(DEAD));
-    }
 
     @Test
     void shouldReturnCellStateAsDeadWhenTheCellHasFewerThanTwoAliveNeighbors() {
-        Coordinate coordinate=new Coordinate(1,1);
-        Cell cell = new Cell(coordinate,ALIVE);
-        System.out.println(cell);
-        Coordinate anotherCoordinate = new Coordinate(1,2);
-        Cell anotherCell = new Cell(anotherCoordinate,ALIVE);
-        System.out.println(anotherCell);
+        Coordinate coordinate = new Coordinate(1, 1);
+        Cell cell = Cell.createAliveCell(coordinate);
+        Coordinate anotherCoordinate = new Coordinate(1, 2);
+        Cell anotherCell = Cell.createAliveCell(anotherCoordinate);
         Grid grid = new Grid();
         grid.addCell(cell);
         grid.addCell(anotherCell);
@@ -49,16 +28,16 @@ public class GridTest {
 
     @Test
     void shouldReturnCellStateAsDeadWhenTheCellHasMoreThanThreeAliveNeighbors() {
-        Coordinate firstCoordinate=new Coordinate(1,1);
-        Cell firstCell = new Cell(firstCoordinate,ALIVE);
-        Coordinate secondCoordinate = new Coordinate(1,2);
-        Cell secondCell = new Cell(secondCoordinate,ALIVE);
-        Coordinate thirdCoordinate = new Coordinate(0,1);
-        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
-        Coordinate fourthCoordinate = new Coordinate(1,0);
-        Cell fourthCell = new Cell(fourthCoordinate,ALIVE);
-        Coordinate fifthCoordinate = new Coordinate(1,0);
-        Cell fifthCell = new Cell(fifthCoordinate,ALIVE);
+        Coordinate firstCoordinate = new Coordinate(1, 1);
+        Cell firstCell = Cell.createAliveCell(firstCoordinate);
+        Coordinate secondCoordinate = new Coordinate(1, 2);
+        Cell secondCell = Cell.createAliveCell(secondCoordinate);
+        Coordinate thirdCoordinate = new Coordinate(0, 1);
+        Cell thirdCell = Cell.createAliveCell(thirdCoordinate);
+        Coordinate fourthCoordinate = new Coordinate(1, 0);
+        Cell fourthCell = Cell.createAliveCell(fourthCoordinate);
+        Coordinate fifthCoordinate = new Coordinate(1, 0);
+        Cell fifthCell = Cell.createAliveCell(fifthCoordinate);
         Grid grid = new Grid();
         grid.addCell(firstCell);
         grid.addCell(secondCell);
@@ -74,12 +53,12 @@ public class GridTest {
 
     @Test
     void shouldReturnCellStateAsAliveWhenTheCellHasTwoOrThreeAliveNeighbors() {
-        Coordinate firstCoordinate=new Coordinate(1,1);
-        Cell firstCell = new Cell(firstCoordinate,ALIVE);
-        Coordinate secondCoordinate = new Coordinate(1,2);
-        Cell secondCell = new Cell(secondCoordinate,ALIVE);
-        Coordinate thirdCoordinate = new Coordinate(0,1);
-        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
+        Coordinate firstCoordinate = new Coordinate(1, 1);
+        Cell firstCell = Cell.createAliveCell(firstCoordinate);
+        Coordinate secondCoordinate = new Coordinate(1, 2);
+        Cell secondCell = Cell.createAliveCell(secondCoordinate);
+        Coordinate thirdCoordinate = new Coordinate(0, 1);
+        Cell thirdCell = Cell.createAliveCell(thirdCoordinate);
         Grid grid = new Grid();
         grid.addCell(firstCell);
         grid.addCell(secondCell);
@@ -93,14 +72,14 @@ public class GridTest {
 
     @Test
     void shouldReturnCellStateAsAliveWhenTheCellIsDeadAndItHasThreeAliveNeighbors() {
-        Coordinate firstCoordinate=new Coordinate(1,1);
-        Cell firstCell = new Cell(firstCoordinate,DEAD);
-        Coordinate secondCoordinate = new Coordinate(1,2);
-        Cell secondCell = new Cell(secondCoordinate,ALIVE);
-        Coordinate thirdCoordinate = new Coordinate(0,1);
-        Cell thirdCell = new Cell(thirdCoordinate,ALIVE);
-        Coordinate fourthCoordinate = new Coordinate(1,0);
-        Cell fourthCell = new Cell(fourthCoordinate,ALIVE);
+        Coordinate firstCoordinate = new Coordinate(1, 1);
+        Cell firstCell = Cell.createDeadCell(firstCoordinate);
+        Coordinate secondCoordinate = new Coordinate(1, 2);
+        Cell secondCell = Cell.createAliveCell(secondCoordinate);
+        Coordinate thirdCoordinate = new Coordinate(0, 1);
+        Cell thirdCell = Cell.createAliveCell(thirdCoordinate);
+        Coordinate fourthCoordinate = new Coordinate(1, 0);
+        Cell fourthCell = Cell.createAliveCell(fourthCoordinate);
         Grid grid = new Grid();
         grid.addCell(firstCell);
         grid.addCell(secondCell);
