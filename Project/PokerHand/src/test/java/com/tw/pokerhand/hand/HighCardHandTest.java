@@ -5,7 +5,10 @@ import com.tw.exception.CardsRequiredException;
 import com.tw.exception.DuplicateCardException;
 import com.tw.exception.InvalidInputException;
 import com.tw.pokerhand.Hand;
+import com.tw.pokerhand.Value;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

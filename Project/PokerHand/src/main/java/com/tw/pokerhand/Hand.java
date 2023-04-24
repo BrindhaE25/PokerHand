@@ -67,26 +67,55 @@ public class Hand {
     }
 
     public void rank() {
-        if (isFiveOfAKind()) ;
-        else if (isStraightFlush()) ;
-        else if (isFourOfAKind()) ;
-        else if (isFullHouse()) ;
-        else if (isFlush()) ;
-        else if (isStraight()) ;
-        else if (isThreeOfAKind()) ;
-        else if (isTwoPair()) ;
-        else if (isOnePair()) ;
-        else if (isHighCard()) ;
+        Map<Value, Integer> cardsFrequency = getCardsFrequency();
+
+        if (isFiveOfAKind(cardsFrequency)) {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, FIVE_OF_A_KIND_RANK);
+        }
+        else if (isStraightFlush()) {
+            calculatePoints(this.cards);
+            calculatePointsByCategoryRank(STRAIGHT_FLUSH_RANK);
+        }
+        else if (isFourOfAKind(cardsFrequency)) {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, FOUR_OF_A_KIND_RANK);
+        }
+        else if (isFullHouse(cardsFrequency))  {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, FULL_HOUSE_RANK);
+        }
+        else if (isFlush()) {
+            calculatePoints(cards);
+            calculatePointsByCategoryRank(FLUSH_RANK);
+        }
+        else if (isStraight()) {
+            calculatePoints(this.cards);
+            calculatePointsByCategoryRank(STRAIGHT_RANK);
+        }
+        else if (isThreeOfAKind(cardsFrequency)) {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, THREE_OF_A_KIND_RANK);
+        }
+        else if (isTwoPair(cardsFrequency)) {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, TWO_PAIR_RANK);
+
+        }
+        else if (isOnePair(cardsFrequency)) {
+            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(valueList, ONE_PAIR_RANK);
+        }
+        else if (isHighCard()) {
+            orderByCardValueBasedOnCategory(cardsFrequency);
+            setPoints(cardsFrequency, HIGH_CARD_RANK);
+        }
     }
 
     public boolean isHighCard() {
         if (!isFlush() && !isPair() && !isStraight()) {
-            Map<Value, Integer> cardsFrequency = getCardsFrequency();
-            orderByCardValueBasedOnCategory(cardsFrequency);
-            setPoints(cardsFrequency, HIGH_CARD_RANK);
             return true;
         } else {
-            this.points = 0;
             sort(this.cards);
             return false;
         }
@@ -94,16 +123,10 @@ public class Hand {
 
     public boolean isStraight() {
         if (!isSameSuit(this.cards)) {
-            if (isSequential(this.cards)) {
-                calculatePoints(this.cards);
-                calculatePointsByCategoryRank(STRAIGHT_RANK);
-                return true;
-            }
+            return isSequential(this.cards);
         } else {
-            this.points = 0;
             return false;
         }
-        return false;
     }
 
     private boolean isPair() {
@@ -116,12 +139,7 @@ public class Hand {
     }
 
     public boolean isFlush() {
-        if (isSameSuit(this.cards)) {
-            calculatePoints(cards);
-            calculatePointsByCategoryRank(FLUSH_RANK);
-            return true;
-        }
-        return false;
+        return isSameSuit(this.cards);
     }
 
     private boolean isSameSuit(List<Card> cards) {
@@ -130,16 +148,16 @@ public class Hand {
                 eachCard.getSymbol().equals(card.getSymbol()));
     }
 
-    public boolean isOnePair() {
-        return containSameCardValues(2, 1, ONE_PAIR_RANK);
+    public boolean isOnePair(Map<Value, Integer> cardsFrequency) {
+        return containSameCardValues(2, 1, cardsFrequency);
     }
 
-    public boolean isTwoPair() {
-        return containSameCardValues(2, 2, TWO_PAIR_RANK);
+    public boolean isTwoPair(Map<Value, Integer> cardsFrequency) {
+        return containSameCardValues(2, 2, cardsFrequency);
     }
 
-    public boolean isThreeOfAKind() {
-        return containSameCardValues(3, 1, THREE_OF_A_KIND_RANK);
+    public boolean isThreeOfAKind(Map<Value, Integer> cardsFrequency) {
+        return containSameCardValues(3, 1, cardsFrequency);
     }
 
     private int getPairCount(Map<Value, Integer> frequency, int noOfCards) {
@@ -195,7 +213,7 @@ public class Hand {
                         (e1, e2) -> e1, LinkedHashMap::new));
     }
 
-    private Map<Value, Integer> getCardsFrequency() {
+    public Map<Value, Integer> getCardsFrequency() {
         Map<Value, Integer> frequency = new LinkedHashMap<>();
         for (Card card : cards) {
             int value = 1;
@@ -220,41 +238,20 @@ public class Hand {
             return null;
     }
 
-    public boolean isFullHouse() {
-        Map<Value, Integer> frequency = getCardsFrequency();
-        if (isOnePair() && isThreeOfAKind()) {
-            this.points = 0;
-            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(frequency);
-            setPoints(valueList, FULL_HOUSE_RANK);
-            return true;
-        }
-        this.points = 0;
-        return false;
+    public boolean isFullHouse(Map<Value, Integer> cardsFrequency) {
+        return isOnePair(cardsFrequency) && isThreeOfAKind(cardsFrequency);
     }
 
-    public boolean isFourOfAKind() {
-        return containSameCardValues(4, 1, FOUR_OF_A_KIND_RANK);
+    public boolean isFourOfAKind(Map<Value, Integer> cardsFrequency) {
+        return containSameCardValues(4, 1, cardsFrequency);
     }
 
-    public boolean isFiveOfAKind() {
-        Map<Value, Integer> frequency = getCardsFrequency();
-        if (containSameCardValues(4, 1, FIVE_OF_A_KIND_RANK) && frequency.containsKey(Value.JOKER)) {
-            this.points = 0;
-            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(frequency);
-            setPoints(valueList, FIVE_OF_A_KIND_RANK);
-            return true;
-        }
-        this.points = 0;
-        return false;
+    public boolean isFiveOfAKind(Map<Value, Integer> cardFrequency) {
+        return containSameCardValues(4, 1,cardFrequency) && cardFrequency.containsKey(Value.JOKER);
     }
 
     public boolean isStraightFlush() {
-        if (isSequential(this.cards) && isFlush()) {
-            calculatePoints(this.cards);
-            calculatePointsByCategoryRank(STRAIGHT_FLUSH_RANK);
-            return true;
-        }
-        return false;
+        return isSequential(this.cards) && isFlush();
     }
 
     private boolean isFiveHighStraight(Integer position) {
@@ -274,16 +271,9 @@ public class Hand {
         return true;
     }
 
-    private boolean containSameCardValues(int noOfCards, int pairCount, int PAIR_RANK) {
-        Map<Value, Integer> frequency = getCardsFrequency();
-        int count = getPairCount(frequency, noOfCards);
-        if (count == pairCount) {
-            Map<Value, Integer> valueList = orderByCardValueBasedOnCategory(frequency);
-            setPoints(valueList, PAIR_RANK);
-            return true;
-        }
-        this.points = 0;
-        return false;
+    private boolean containSameCardValues(int noOfCards, int pairCount, Map<Value, Integer> cardFrequency) {
+        int count = getPairCount(cardFrequency, noOfCards);
+        return count == pairCount;
     }
 }
 
